@@ -1,2 +1,2 @@
-# wiki
-All things MSN Chat
+# The MSN Chat Wiki
+There's no code here, [[continue to the Wiki|Home]].
