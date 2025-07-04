@@ -10,7 +10,7 @@ Welcome to the MSN Chat Internals project — a technical and historical archive
 ## 📄 Documentation
 
 - [Character Set Reference](charset-reference.md)  
-  A detailed breakdown of the character encodings used in MSN Chat, including control codes and formatting behavior.
+  A detailed breakdown of the character encodings used in MSN Chat.
 
 - [Redistributing MSN Chat](redistributing-msnchat.md)  
   A discussion on the legal, ethical, and technical considerations around redistributing MSN Chat binaries and assets.
