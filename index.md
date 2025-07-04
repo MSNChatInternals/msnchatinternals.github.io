@@ -12,7 +12,7 @@ Welcome to the MSN Chat Internals project — a technical and historical archive
 - [Character Set Reference](charset-reference.md)  
   A detailed breakdown of the character encodings used in MSN Chat.
 
-  - [Color Reference](color-reference.md)  
+- [Color Reference](color-reference.md)  
   A complete index of the 16-color palette used in MSN Chat text styling, including hex codes and visual samples.
 
 - [Redistributing MSN Chat](redistributing-msnchat.md)  
