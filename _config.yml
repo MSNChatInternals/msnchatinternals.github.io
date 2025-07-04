@@ -1,6 +1,6 @@
-remote_theme: pages-themes/hacker@v0.2.0
+remote_theme: pages-themes/cayman@v0.2.0
 plugins:
-- jekyll-remote-them
+- jekyll-remote-theme
 
 title: MSN Chat Internals
 description: Technical documentation and history of MSN Chat
