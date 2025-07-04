@@ -1,3 +1,7 @@
+# 🎨 MSN Chat Text Colors
+
+MSN Chat supported a 16-color palette for styling text in messages. These colors were referenced by index.
+
 | Index | Color Name        | Hex Code  | Sample Text               |
 |-------|-------------------|-----------|----------------------------|
 | 1     | Black             | `#000000` | <span style="color:#000000">Sample</span> |
@@ -16,3 +20,5 @@
 | 14    | Yellow            | `#FFFF00` | <span style="color:#FFFF00">Sample</span> |
 | 15    | Fuchsia (Magenta) | `#FF00FF` | <span style="color:#FF00FF">Sample</span> |
 | 16    | Aqua (Cyan)       | `#00FFFF` | <span style="color:#00FFFF">Sample</span> |
+
+> 💡 **Tip:** If these colors look familiar, it's because they correspond to the classic Windows VGA palette, commonly used in RichEdit controls and early Windows applications.
