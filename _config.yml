@@ -1,3 +1,6 @@
+remote_theme: pages-themes/hacker@v0.2.0
+plugins:
+- jekyll-remote-them
+
 title: MSN Chat Internals
 description: Technical documentation and history of MSN Chat
-theme: Hacker
