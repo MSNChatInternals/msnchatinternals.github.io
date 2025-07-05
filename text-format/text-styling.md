@@ -11,7 +11,7 @@ avoids sending a null byte (`0x00`), which would require an extra escape charact
 For example:
 
 ```rust
-let style = (ChatFormat::cfBold as u8 | ChatFormat::cfItalic as u8) + 1; // Encoded as 0x04
+let style = (ChatFormat::chfBold as u8 | ChatFormat::chfItalic as u8) + 1; // Encoded as 0x04
 ```
 
 To decode, subtract 1 and apply bitmask logic.
@@ -20,12 +20,12 @@ To decode, subtract 1 and apply bitmask logic.
 
 ## 🎛️ Style Constants
 
-| Constant       | Value | Hex Value | Description               |
-|----------------|-------|-----------|---------------------------|
-| `cfNone`       | 0     | `0x00`    | No style applied          |
-| `cfBold`       | 1     | `0x01`    | Characters are bold       |
-| `cfItalic`     | 2     | `0x02`    | Characters are italic     |
-| `cfUnderlined` | 4     | `0x04`    | Characters are underlined |
+| Constant        | Value | Hex Value | Description               |
+|-----------------|-------|-----------|---------------------------|
+| `chfNone`       | 0     | `0x00`    | No style applied          |
+| `chfBold`       | 1     | `0x01`    | Characters are bold       |
+| `chfItalic`     | 2     | `0x02`    | Characters are italic     |
+| `chfUnderlined` | 4     | `0x04`    | Characters are underlined |
 
 These values can be combined using bitwise OR.
 
@@ -34,22 +34,22 @@ These values can be combined using bitwise OR.
 ## 🧪 Example Combinations
 
 | Style Combination         | Bitmask Expression                 | Raw Value | Style Byte |
-|---------------------------|------------------------------------|-----------|------------|
-| No Style                  | `cfNone`                           | 0         | `\x01`     |
-| Bold                      | `cfBold`                           | 1         | `\x02`     |
-| Italic                    | `cfItalic`                         | 2         | `\x03`     |
-| Bold + Italic             | `cfBold | cfItalic`                | 3         | `\x04`     |
-| Underline                 | `cfUnderline`                      | 4         | `\x05`     |
-| Bold + Underline          | `cfBold | cfUnderlined`            | 5         | `\x06`     |
-| Italic + Underline        | `cfItalic | cfUnderlined`          | 6         | `\x07`     |
-| Bold + Italic + Underline | `cfBold | cfItalic | cfUnderlined` | 7         | `\x08`     |
+|---------------------------|---------------------------------------|-----------|------------|
+| No Style                  | `chfNone`                             | 0         | `\x01`     |
+| Bold                      | `chfBold`                             | 1         | `\x02`     |
+| Italic                    | `chfItalic`                           | 2         | `\x03`     |
+| Bold + Italic             | `chfBold | chfItalic`                 | 3         | `\x04`     |
+| Underline                 | `chfUnderline`                        | 4         | `\x05`     |
+| Bold + Underline          | `chfBold | chfUnderlined`             | 5         | `\x06`     |
+| Italic + Underline        | `chfItalic | chfUnderlined`           | 6         | `\x07`     |
+| Bold + Italic + Underline | `chfBold | chfItalic | chfUnderlined` | 7         | `\x08`     |
 
 ---
 
 ## 🛠️ Implementation Notes
 
 - The style byte is always offset by +1 before being transmitted.
-- A style byte of `\x01` means no style (`cfNone`).
+- A style byte of `\x01` means no style (`chfNone`).
 - Bitmask logic allows combining multiple styles in a single byte.
 
 ---
@@ -63,10 +63,10 @@ These values can be combined using bitwise OR.
 #[repr(i32)]
 #[derive(Debug, Clone, Copy)]
 pub enum ChatFormat {
-    cfNone = 0,
-    cfBold = 1,
-    cfItalic = 2,
-    cfUnderlined = 4,
+    chfNone = 0,
+    chfBold = 1,
+    chfItalic = 2,
+    chfUnderlined = 4,
 }
 
 /// Encodes a combination of ChatFormat flags into a style byte.
@@ -81,7 +81,7 @@ fn decode_style(style_byte: u8) -> u8 {
 
 fn main() {
     // Example: Bold + Italic
-    let flags = ChatFormat::cfBold as u8 | ChatFormat::cfItalic as u8;
+    let flags = ChatFormat::chfBold as u8 | ChatFormat::chfItalic as u8;
     let encoded = encode_style(flags);
     println!("Encoded style byte: 0x{:02X}", encoded); // Should print 0x04
 
