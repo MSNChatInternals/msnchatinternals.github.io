@@ -12,4 +12,4 @@ encoded with color, font, style, and character set information using a custom CT
 
 Each section provides detailed tables, examples, and implementation notes to help you understand or recreate MSN Chat’s message styling system.
 
-> 💡 This documentation is part of the [MSN Chat Internals](https://github.com/MSNChatInternals) project, which aims to preserve and explain the technical underpinnings of MSN Chat for future generations.
+> 💡 This documentation is part of the [MSN Chat Internals](https://github.com/MSNChatInternals) project, which aims to preserve and explain the technical underpinnings of MSN Chat for future generations. 
