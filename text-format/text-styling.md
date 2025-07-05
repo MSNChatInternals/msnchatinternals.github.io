@@ -1,17 +1,17 @@
 # ✍️ Text Styling Flags
 
-MSN Chat uses a bitmask to represent text styles such as bold, italic, and underline. These styles are encoded as a
-single byte in the CTCP "S" message format.
+MSN Chat uses a bitmask to represent text styles such as bold, italic, and underline. These styles are encoded as a  
+single byte in the CTCP `"S"` message format.
 
 ## 🧠 Encoding Rule
 
-The style byte is calculated using a bitwise OR of the desired flags, then **offset by +1** before transmission. This
-avoids sending a null byte (`0x00`), which would require escaping.
+The style byte is calculated using a bitwise OR of the desired flags, then **offset by +1** before transmission. This  
+avoids sending a null byte (`0x00`), which would require an extra escape character.
 
 For example:
 
-```
-style = (CFE_BOLD | CFE_ITALIC) + 1; // Encoded as 0x04
+```rust
+let style = (ChatFormat::cfBold as u8 | ChatFormat::cfItalic as u8) + 1; // Encoded as 0x04
 ```
 
 To decode, subtract 1 and apply bitmask logic.
@@ -20,12 +20,12 @@ To decode, subtract 1 and apply bitmask logic.
 
 ## 🎛️ Style Constants
 
-| Constant        | Value | Hex Value | Description               |
-|-----------------|-------|-----------|---------------------------|
-| `CFE_NONE`      | 0     | `0x00`    | No style applied          |
-| `CFE_BOLD`      | 1     | `0x01`    | Characters are bold       |
-| `CFE_ITALIC`    | 2     | `0x02`    | Characters are italic     |
-| `CFE_UNDERLINE` | 4     | `0x04`    | Characters are underlined |
+| Constant       | Value | Hex Value | Description               |
+|----------------|-------|-----------|---------------------------|
+| `cfNone`       | 0     | `0x00`    | No style applied          |
+| `cfBold`       | 1     | `0x01`    | Characters are bold       |
+| `cfItalic`     | 2     | `0x02`    | Characters are italic     |
+| `cfUnderlined` | 4     | `0x04`    | Characters are underlined |
 
 These values can be combined using bitwise OR.
 
@@ -33,27 +33,65 @@ These values can be combined using bitwise OR.
 
 ## 🧪 Example Combinations
 
-| Style Combination         | Bitmask Expression                      | Raw Value | Style Byte |
-|---------------------------|-----------------------------------------|-----------|------------|
-| No Style                  | `CFE_NONE`                              | 0         | `\x01`     |
-| Bold                      | `CFE_BOLD`                              | 1         | `\x02`     |
-| Italic                    | `CFE_ITALIC`                            | 2         | `\x03`     |
-| Bold + Italic             | `CFE_BOLD | CFE_ITALIC`                 | 3         | `\x04`     |
-| Bold + Underline          | `CFE_BOLD | CFE_UNDERLINE`              | 5         | `\x06`     |
-| Italic + Underline        | `CFE_ITALIC | CFE_UNDERLINE`            | 6         | `\x07`     |
-| Bold + Italic + Underline | `CFE_BOLD | CFE_ITALIC | CFE_UNDERLINE` | 7         | `\x08`     |
+| Style Combination         | Bitmask Expression                 | Raw Value | Style Byte |
+|---------------------------|------------------------------------|-----------|------------|
+| No Style                  | `cfNone`                           | 0         | `\x01`     |
+| Bold                      | `cfBold`                           | 1         | `\x02`     |
+| Italic                    | `cfItalic`                         | 2         | `\x03`     |
+| Bold + Italic             | `cfBold | cfItalic`                | 3         | `\x04`     |
+| Underline                 | `cfUnderline`                      | 4         | `\x05`     |
+| Bold + Underline          | `cfBold | cfUnderlined`            | 5         | `\x06`     |
+| Italic + Underline        | `cfItalic | cfUnderlined`          | 6         | `\x07`     |
+| Bold + Italic + Underline | `cfBold | cfItalic | cfUnderlined` | 7         | `\x08`     |
 
 ---
 
 ## 🛠️ Implementation Notes
 
 - The style byte is always offset by +1 before being transmitted.
-- A style byte of `\x01` means no style (`CFE_NONE`).
+- A style byte of `\x01` means no style (`cfNone`).
 - Bitmask logic allows combining multiple styles in a single byte.
+
+---
+
+## 🧾 Rust Code Sample
+
+```rust
+/// Text styling flags used in MSN Chat.
+/// These match the values used in the CTCP "S" message format,
+/// and are offset by +1 during transmission.
+#[repr(i32)]
+#[derive(Debug, Clone, Copy)]
+pub enum ChatFormat {
+    cfNone = 0,
+    cfBold = 1,
+    cfItalic = 2,
+    cfUnderlined = 4,
+}
+
+/// Encodes a combination of ChatFormat flags into a style byte.
+fn encode_style(flags: u8) -> u8 {
+    flags + 1
+}
+
+/// Decodes a style byte back into raw flags.
+fn decode_style(style_byte: u8) -> u8 {
+    style_byte.saturating_sub(1)
+}
+
+fn main() {
+    // Example: Bold + Italic
+    let flags = ChatFormat::cfBold as u8 | ChatFormat::cfItalic as u8;
+    let encoded = encode_style(flags);
+    println!("Encoded style byte: 0x{:02X}", encoded); // Should print 0x04
+
+    let decoded = decode_style(encoded);
+    println!("Decoded flags: 0x{:02X}", decoded); // Should print 0x03
+}
+```
 
 ---
 
 ## 📚 References
 
-- "CHARFORMATW structure (richedit.h) - Win32 apps." (2024, November 20). *Microsoft Learn*. Retrieved from [https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformatw](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformatw)
 - [MSN Chat Internals GitHub](https://github.com/MSNChatInternals)
