@@ -6,7 +6,7 @@
 | /AWAY |
 | /CLEAR |
 | /CREDITS |
-| /INVITE | -->
+| /INVITE |
 | /ME |
 | /PART |
 | /PASS |
